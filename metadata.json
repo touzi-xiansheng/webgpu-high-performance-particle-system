@@ -1,0 +1,5 @@
+{
+  "name": "WebGPU High-Performance Particle System",
+  "description": "A high-performance interactive particle simulation demonstrating Compute Shaders and massive parallelism using WebGPU. Features 100,000+ interactive particles with physics-based mouse attraction/repulsion.",
+  "requestFramePermissions": []
+}
