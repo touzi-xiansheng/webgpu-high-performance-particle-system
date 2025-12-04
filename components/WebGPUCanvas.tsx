@@ -95,6 +95,13 @@ export const WebGPUCanvas: React.FC<WebGPUCanvasProps> = ({ simParams, onStatusC
         return;
       }
 
+      // Initial canvas sizing to match viewport & DPR
+      const dpr = window.devicePixelRatio || 1;
+      const width = canvas.clientWidth || window.innerWidth;
+      const height = canvas.clientHeight || window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+
       const presentationFormat = navigatorAny.gpu.getPreferredCanvasFormat();
       context.configure({
         device,
@@ -263,11 +270,15 @@ export const WebGPUCanvas: React.FC<WebGPUCanvasProps> = ({ simParams, onStatusC
   useEffect(() => {
     const handleResize = () => {
       const canvas = canvasRef.current;
-      if (canvas && contextRef.current) {
-        const dpr = window.devicePixelRatio || 1;
-        canvas.width = window.innerWidth * dpr;
-        canvas.height = window.innerHeight * dpr;
-        
+      if (!canvas) return;
+
+      const dpr = window.devicePixelRatio || 1;
+      const width = canvas.clientWidth || window.innerWidth;
+      const height = canvas.clientHeight || window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+
+      if (contextRef.current) {
         contextRef.current.context.configure({
           device: contextRef.current.device,
           format: contextRef.current.presentationFormat,
